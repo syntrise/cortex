@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CORTEX | Admin Dashboard v2.3</title>
+  <title>CORTEX | Admin Dashboard v2.4</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -915,7 +915,7 @@
       <div class="logo">
         <div class="logo-icon">🧠</div>
         <div class="logo-text">
-          CORTEX <span>v2.3</span>
+          CORTEX <span>v2.4</span>
           <span class="beta-badge">Admin</span>
         </div>
       </div>
@@ -1506,7 +1506,9 @@
     // ===== LOAD HOURLY CHART =====
     async function loadHourlyChart() {
       try {
-        const { data: drops } = await query('drops?select=created_at&order=created_at.desc&limit=1000');
+        // Filter by last 24 hours to avoid limit issues
+        const since24h = new Date(Date.now() - 24 * 3600000).toISOString();
+        const { data: drops } = await query(`drops?select=created_at&created_at=gte.${since24h}&order=created_at.desc`);
         if (!drops) return;
 
         // Group by hour (last 24 hours)
@@ -1539,7 +1541,9 @@
     // ===== LOAD WEEKLY CHART =====
     async function loadWeeklyChart() {
       try {
-        const { data: drops } = await query('drops?select=created_at');
+        // Filter by last 7 days to avoid limit issues
+        const since7d = new Date(Date.now() - 7 * 86400000).toISOString();
+        const { data: drops } = await query(`drops?select=created_at&created_at=gte.${since7d}`);
         if (!drops) return;
 
         const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
@@ -1595,9 +1599,21 @@
         if (c.model) byProvider[provider].models.add(c.model);
       });
 
-      // Get embeddings count for OpenAI
-      const { data: embeddings } = await query('drop_embeddings?select=id');
-      const embeddingsCount = embeddings?.length || 0;
+      // Get embeddings count using HEAD request for exact count
+      let embeddingsCount = 0;
+      try {
+        const embeddingsResponse = await fetch(`${SUPABASE_URL}/rest/v1/drop_embeddings?select=id`, {
+          method: 'HEAD',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${(await supabaseClient.auth.getSession()).data.session?.access_token || SUPABASE_KEY}`,
+            'Prefer': 'count=exact'
+          }
+        });
+        embeddingsCount = parseInt(embeddingsResponse.headers.get('content-range')?.split('/')[1] || '0');
+      } catch (e) {
+        console.error('Embeddings count error:', e);
+      }
 
       // Anthropic stats
       const anthropic = byProvider['anthropic'] || { requests: 0, cost: 0, tokens: 0, models: new Set() };
@@ -1697,18 +1713,36 @@
     // ===== LOAD DROPS BREAKDOWN =====
     async function loadDropsBreakdown() {
       try {
-        const { data: drops } = await query('drops?select=drop_group,drop_type');
-        if (!drops) return;
+        // Use HEAD requests to get exact counts per drop_group
+        const groups = ['info', 'command', 'service'];
+        const counts = {};
+        let total = 0;
 
-        const groups = {};
-        const types = {};
-        
-        drops.forEach(d => {
-          groups[d.drop_group] = (groups[d.drop_group] || 0) + 1;
-          types[d.drop_type] = (types[d.drop_type] || 0) + 1;
-        });
+        for (const group of groups) {
+          try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/drops?select=id&drop_group=eq.${group}`, {
+              method: 'HEAD',
+              headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${(await supabaseClient.auth.getSession()).data.session?.access_token || SUPABASE_KEY}`,
+                'Prefer': 'count=exact'
+              }
+            });
+            const count = parseInt(response.headers.get('content-range')?.split('/')[1] || '0');
+            if (count > 0) {
+              counts[group] = count;
+              total += count;
+            }
+          } catch (e) {
+            console.error(`Count error for ${group}:`, e);
+          }
+        }
 
-        const total = drops.length;
+        if (total === 0) {
+          document.getElementById('dropsBreakdown').innerHTML = '<p style="color:#666">No data</p>';
+          return;
+        }
+
         const colors = {
           info: '#60a5fa',
           command: '#f97316',
@@ -1723,7 +1757,7 @@
         };
 
         let html = '';
-        Object.entries(groups).sort((a, b) => b[1] - a[1]).forEach(([group, count]) => {
+        Object.entries(counts).sort((a, b) => b[1] - a[1]).forEach(([group, count]) => {
           const percent = ((count / total) * 100).toFixed(1);
           html += `
             <div class="breakdown-item">
@@ -1732,7 +1766,7 @@
                 <span>${icons[group] || '📦'} ${group}</span>
               </div>
               <div>
-                <span class="count">${count}</span>
+                <span class="count">${count.toLocaleString()}</span>
                 <span class="percent">${percent}%</span>
               </div>
             </div>
@@ -1789,7 +1823,7 @@
     // ===== LOAD ACTIVITY TIMELINE =====
     async function loadActivityTimeline() {
       try {
-        const { data: drops } = await query('drops?order=created_at.desc&limit=8&select=id,title,drop_group,created_at,encryption_version');
+        const { data: drops } = await query('drops?order=created_at.desc&limit=8&select=id,title,content,drop_group,category,created_at,encryption_version');
         if (!drops?.length) {
           document.getElementById('activityTimeline').innerHTML = '<div style="color:#666">No recent activity</div>';
           return;
@@ -1799,13 +1833,23 @@
           const time = new Date(d.created_at).toLocaleString('ru-RU', {
             hour: '2-digit', minute: '2-digit'
           });
-          const title = d.encryption_version === 2 ? '🔐 Encrypted drop' : (d.title?.slice(0, 40) || 'New drop');
+          // Show title, or first 40 chars of content, or category
+          let displayText;
+          if (d.encryption_version === 2) {
+            displayText = '🔐 Encrypted drop';
+          } else if (d.title) {
+            displayText = d.title.slice(0, 40);
+          } else if (d.content) {
+            displayText = d.content.slice(0, 40) + (d.content.length > 40 ? '...' : '');
+          } else {
+            displayText = d.category || 'New drop';
+          }
           const statusClass = d.drop_group === 'command' ? 'warning' : 'success';
 
           return `
             <div class="timeline-item ${statusClass}">
               <div class="time">${time}</div>
-              <div class="content">${title}</div>
+              <div class="content">${displayText}</div>
             </div>
           `;
         }).join('');
