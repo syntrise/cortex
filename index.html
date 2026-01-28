@@ -956,7 +956,14 @@
     const SUPABASE_URL = 'https://ughfdhmyflotgsysvrrc.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnaGZkaG15ZmxvdGdzeXN2cnJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwMzA3MjQsImV4cCI6MjA0OTYwNjcyNH0.aKey9jSIlAzDdVobXdV9W2bJL1FY0BVwlALOoXjHn1w';
     
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    console.log('[Init] Creating Supabase client...');
+    let supabase;
+    try {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      console.log('[Init] Supabase client created:', !!supabase);
+    } catch (e) {
+      console.error('[Init] Failed to create Supabase client:', e);
+    }
     
     let currentUser = null;
     let grid = null;
@@ -997,10 +1004,26 @@
     };
     
     async function init() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) await verifyOwnerAccess(session);
+      console.log('[Init] Starting...');
+      console.log('[Init] window.supabase:', !!window.supabase);
+      console.log('[Init] supabase client:', !!supabase);
+      
+      if (!supabase) {
+        console.error('[Init] No Supabase client!');
+        showLoginError('Failed to initialize. Please refresh the page.');
+        return;
+      }
+      
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log('[Init] Session:', session?.user?.email || 'none');
+        if (session?.user) await verifyOwnerAccess(session);
+      } catch (e) {
+        console.error('[Init] Error getting session:', e);
+      }
       
       supabase.auth.onAuthStateChange(async (event, session) => {
+        console.log('[Auth] Event:', event);
         if (event === 'SIGNED_IN' && session?.user) await verifyOwnerAccess(session);
       });
     }
@@ -1404,7 +1427,31 @@
     function toggleEditMode() { editMode = !editMode; document.getElementById('editModeToggle').classList.toggle('active', editMode); grid.enableMove(editMode); grid.enableResize(editMode); }
     
     // ============ AUTH ============
-    async function handleGoogleLogin() { const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin + window.location.pathname } }); if (error) showLoginError(error.message); }
+    async function handleGoogleLogin() {
+      console.log('[Login] Button clicked');
+      try {
+        if (!supabase) {
+          console.error('[Login] Supabase not initialized!');
+          showLoginError('Supabase not loaded. Please refresh.');
+          return;
+        }
+        console.log('[Login] Calling signInWithOAuth...');
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: window.location.origin + window.location.pathname
+          }
+        });
+        console.log('[Login] Result:', { data, error });
+        if (error) {
+          console.error('[Login] Error:', error);
+          showLoginError(error.message);
+        }
+      } catch (e) {
+        console.error('[Login] Exception:', e);
+        showLoginError('Error: ' + e.message);
+      }
+    }
     async function handleLogout() { if (confirm('Sign out?')) { await supabase.auth.signOut(); window.location.reload(); } }
     function showLoginError(msg) { const el = document.getElementById('loginError'); el.textContent = msg; el.style.display = 'block'; }
     
@@ -1420,6 +1467,7 @@
     function changeTier(id) { alert('Change tier: ' + maskId(id)); }
     function banUser(id) { if (confirm('Ban ' + maskId(id) + '?')) alert('Banned (mock)'); }
     
+    console.log('[Script] All functions defined, calling init()...');
     init();
   </script>
 </body>
