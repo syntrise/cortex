@@ -1011,7 +1011,9 @@
       commands: [],
       users: [],
       apiCosts: [],
-      embeddings: 0
+      embeddings: 0,
+      totalDrops: 0,
+      totalCommands: 0
     };
     
     // ============ DEFAULT LAYOUT ============
@@ -1078,7 +1080,11 @@
         const session = (await sb.auth.getSession()).data.session;
         const token = session?.access_token || SUPABASE_KEY;
         
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=id`, {
+        // Handle existing query params
+        const separator = table.includes('?') ? '&' : '?';
+        const url = `${SUPABASE_URL}/rest/v1/${table}${separator}select=id`;
+        
+        const response = await fetch(url, {
           method: 'HEAD',
           headers: {
             'apikey': SUPABASE_KEY,
@@ -1087,8 +1093,11 @@
           }
         });
         
-        return parseInt(response.headers.get('content-range')?.split('/')[1] || '0');
+        const count = parseInt(response.headers.get('content-range')?.split('/')[1] || '0');
+        console.log('[Count]', table, '→', count);
+        return count;
       } catch (e) {
+        console.error('[Count] Error:', table, e);
         return 0;
       }
     }
@@ -1257,12 +1266,19 @@
       
       try {
         // Load all data in parallel
+        // Get exact counts first
+        const totalDropsCount = await queryCount('drops');
+        const totalCommandsCount = await queryCount('drops?drop_group=eq.command');
+        
         const [dropsResult, commandsResult, limitsResult, costsResult] = await Promise.all([
           query('drops?select=id,user_id,category,drop_group,created_at&order=created_at.desc&limit=500'),
           query('drops?drop_group=eq.command&select=id,user_id,drop_type,exec_status,created_at&order=created_at.desc&limit=100'),
           query('user_limits?select=user_id,tier'),
           query('api_costs?select=id,provider,model,cost_usd,tokens_input,tokens_output,created_at')
         ]);
+        
+        cache.totalDrops = totalDropsCount;
+        cache.totalCommands = totalCommandsCount;
         
         cache.drops = Array.isArray(dropsResult.data) ? dropsResult.data : [];
         cache.commands = Array.isArray(commandsResult.data) ? commandsResult.data : [];
@@ -1311,11 +1327,11 @@
     function renderKPIWidget(id) {
       const body = document.getElementById(`body-${id}`);
       
-      const totalDrops = cache.drops.length;
+      const totalDrops = cache.totalDrops;
       const today = new Date().toISOString().split('T')[0];
       const todayDrops = cache.drops.filter(d => d.created_at?.startsWith(today)).length;
       const uniqueUsers = [...new Set(cache.drops.map(d => d.user_id).filter(Boolean))].length;
-      const totalCommands = cache.commands.length;
+      const totalCommands = cache.totalCommands;
       const pendingCommands = cache.commands.filter(c => c.exec_status === 'pending').length;
       const totalCost = cache.apiCosts.reduce((sum, c) => sum + (parseFloat(c.cost_usd) || 0), 0);
       
