@@ -18,62 +18,62 @@
   <style>
     /* ========== THEME VARIABLES ========== */
     :root {
-      /* Light Theme (Claude/Perplexity inspired) */
-      --bg-primary: #ffffff;
-      --bg-secondary: #f9fafb;
-      --bg-tertiary: #f3f4f6;
+      /* Warm Beige Theme (Claude-inspired) */
+      --bg-primary: #faf7f2;
+      --bg-secondary: #f0ebe3;
+      --bg-tertiary: #e8e2d9;
       --bg-card: #ffffff;
-      --bg-card-hover: #f9fafb;
-      --border: #e5e7eb;
-      --border-hover: #d1d5db;
-      --text-primary: #111827;
-      --text-secondary: #4b5563;
-      --text-muted: #9ca3af;
-      --accent: #6366f1;
-      --accent-hover: #4f46e5;
-      --accent-light: rgba(99, 102, 241, 0.1);
-      --blue: #3b82f6;
-      --green: #10b981;
-      --yellow: #f59e0b;
-      --red: #ef4444;
-      --purple: #8b5cf6;
-      --cyan: #06b6d4;
-      --orange: #f97316;
+      --bg-card-hover: #fdfcfa;
+      --border: #e0d9ce;
+      --border-hover: #cfc6b8;
+      --text-primary: #1f1f1f;
+      --text-secondary: #5c5c5c;
+      --text-muted: #8c8c8c;
+      --accent: #c96442;
+      --accent-hover: #b85636;
+      --accent-light: rgba(201, 100, 66, 0.12);
+      --blue: #4a90d9;
+      --green: #3d9970;
+      --yellow: #d9a441;
+      --red: #d94f4f;
+      --purple: #8b6bb5;
+      --cyan: #3d9999;
+      --orange: #d97a3d;
       
       /* Shadows */
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 8px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
       
-      /* Font sizes */
-      --font-xs: 11px;
-      --font-sm: 12px;
-      --font-base: 13px;
-      --font-lg: 14px;
-      --font-xl: 16px;
-      --font-2xl: 20px;
-      --font-3xl: 24px;
+      /* Font sizes - Normal (default) */
+      --font-xs: 13px;
+      --font-sm: 14px;
+      --font-base: 15px;
+      --font-lg: 16px;
+      --font-xl: 18px;
+      --font-2xl: 24px;
+      --font-3xl: 30px;
     }
     
     /* Size presets */
     [data-size="small"] {
-      --font-xs: 10px;
-      --font-sm: 11px;
-      --font-base: 12px;
-      --font-lg: 13px;
-      --font-xl: 14px;
-      --font-2xl: 18px;
-      --font-3xl: 22px;
-    }
-    
-    [data-size="large"] {
       --font-xs: 12px;
       --font-sm: 13px;
       --font-base: 14px;
       --font-lg: 15px;
-      --font-xl: 18px;
-      --font-2xl: 24px;
+      --font-xl: 17px;
+      --font-2xl: 22px;
       --font-3xl: 28px;
+    }
+    
+    [data-size="large"] {
+      --font-xs: 14px;
+      --font-sm: 15px;
+      --font-base: 16px;
+      --font-lg: 18px;
+      --font-xl: 20px;
+      --font-2xl: 28px;
+      --font-3xl: 34px;
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -102,23 +102,23 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 40px;
+      padding: 48px 40px;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       text-align: center;
       box-shadow: var(--shadow-lg);
     }
     
     .login-logo {
-      width: 56px;
-      height: 56px;
-      background: linear-gradient(135deg, var(--accent), var(--purple));
-      border-radius: 14px;
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, var(--accent), var(--orange));
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
-      margin: 0 auto 16px;
+      font-size: 32px;
+      margin: 0 auto 20px;
     }
     
     .login-title {
@@ -241,14 +241,14 @@
     .logo { display: flex; align-items: center; gap: 10px; }
     
     .logo-icon {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(135deg, var(--accent), var(--purple));
-      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, var(--accent), var(--orange));
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 17px;
     }
     
     .logo-text { 
@@ -352,10 +352,10 @@
     .user-menu:hover { background: var(--border); }
     
     .user-avatar {
-      width: 26px;
-      height: 26px;
-      background: linear-gradient(135deg, var(--accent), var(--purple));
-      border-radius: 6px;
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--accent), var(--orange));
+      border-radius: 7px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -444,13 +444,13 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md);
       transition: box-shadow 0.2s, border-color 0.2s;
     }
     
     .grid-stack-item-content:hover { 
       border-color: var(--border-hover);
-      box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow-lg);
     }
     
     .gs-item-dragging .grid-stack-item-content {
@@ -794,15 +794,16 @@
     }
     
     .user-360-avatar {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, var(--accent), var(--purple));
-      border-radius: 10px;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--accent), var(--orange));
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: var(--font-xl);
       color: white;
+      font-weight: 600;
     }
     
     .user-360-info { flex: 1; }
@@ -942,10 +943,10 @@
     }
     
     .tester-avatar {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(135deg, var(--accent), var(--purple));
-      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--orange));
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1019,11 +1020,11 @@
     
     .hourly-bar {
       flex: 1;
-      background: linear-gradient(to top, var(--accent), var(--purple));
-      border-radius: 2px 2px 0 0;
-      min-height: 3px;
+      background: linear-gradient(to top, var(--accent), var(--yellow));
+      border-radius: 3px 3px 0 0;
+      min-height: 4px;
       transition: all 0.3s;
-      opacity: 0.8;
+      opacity: 0.85;
     }
     
     .hourly-bar:hover { opacity: 1; }
