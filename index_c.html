@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CORTEX v3.0 | Syntrise Admin</title>
+  
+  <!-- Gridstack.js -->
+  <link href="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack.min.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/gridstack@10/dist/gridstack-all.js"></script>
+  
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  
+  <style>
+    :root {
+      --bg-primary: #09090b;
+      --bg-secondary: #0f0f12;
+      --bg-card: #18181b;
+      --bg-card-hover: #1f1f23;
+      --border: #27272a;
+      --border-hover: #3f3f46;
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #52525b;
+      --accent: #f97316;
+      --accent-hover: #ea580c;
+      --blue: #3b82f6;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
+      --purple: #a855f7;
+      --cyan: #06b6d4;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    
+    /* ========== LOGIN ========== */
+    .login-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    
+    .login-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+    
+    .login-logo {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 20px;
+    }
+    
+    .login-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--accent), #fb923c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .login-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      font-size: 14px;
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: all 0.2s;
+      border: none;
+    }
+    
+    .login-btn-google {
+      background: #fff;
+      color: #1f1f1f;
+    }
+    
+    .login-btn-google:hover {
+      background: #f4f4f5;
+      transform: translateY(-1px);
+    }
+    
+    .login-error {
+      margin-top: 20px;
+      padding: 12px 16px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--red);
+      border-radius: 8px;
+      color: var(--red);
+      font-size: 13px;
+      display: none;
+    }
+    
+    /* ========== HEADER ========== */
+    .header {
+      height: 60px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    
+    .version-badge {
+      font-size: 10px;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+    
+    .header-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .header-btn {
+      padding: 8px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    
+    .header-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+    
+    .header-btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    
+    .header-btn.primary:hover {
+      background: var(--accent-hover);
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .user-menu:hover {
+      border-color: var(--border-hover);
+    }
+    
+    .user-avatar {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .user-email {
+      font-size: 13px;
+      color: var(--text-secondary);
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* ========== TOOLBAR ========== */
+    .toolbar {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .toolbar-title {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    
+    .edit-mode-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    
+    .toggle-switch {
+      width: 36px;
+      height: 20px;
+      background: var(--border);
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .toggle-switch.active {
+      background: var(--accent);
+    }
+    
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.2s;
+    }
+    
+    .toggle-switch.active::after {
+      transform: translateX(16px);
+    }
+    
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    
+    /* ========== MAIN CONTENT ========== */
+    .main-content {
+      padding: 20px;
+      min-height: calc(100vh - 110px);
+    }
+    
+    /* ========== GRIDSTACK ========== */
+    .grid-stack { background: transparent; }
+    
+    .grid-stack-item-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .grid-stack-item-content:hover {
+      border-color: var(--border-hover);
+    }
+    
+    .gs-item-dragging .grid-stack-item-content {
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      border-color: var(--accent);
+    }
+    
+    /* ========== WIDGET COMMON ========== */
+    .widget-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.01);
+      cursor: move;
+    }
+    
+    .widget-title {
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .widget-actions {
+      display: flex;
+      gap: 4px;
+    }
+    
+    .widget-action {
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.15s;
+    }
+    
+    .widget-action:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+    }
+    
+    .widget-body {
+      padding: 18px;
+      flex: 1;
+      overflow: auto;
+    }
+    
+    .widget-body.no-padding { padding: 0; }
+    
+    /* ========== KPI WIDGET ========== */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      height: 100%;
+    }
+    
+    .kpi-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s;
+    }
+    
+    .kpi-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+    
+    .kpi-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+    
+    .kpi-icon.blue { background: rgba(59, 130, 246, 0.15); }
+    .kpi-icon.green { background: rgba(34, 197, 94, 0.15); }
+    .kpi-icon.yellow { background: rgba(234, 179, 8, 0.15); }
+    .kpi-icon.purple { background: rgba(168, 85, 247, 0.15); }
+    
+    .kpi-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .kpi-value {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    
+    .kpi-value.blue { color: var(--blue); }
+    .kpi-value.green { color: var(--green); }
+    .kpi-value.yellow { color: var(--yellow); }
+    .kpi-value.purple { color: var(--purple); }
+    
+    .kpi-change {
+      margin-top: auto;
+      padding-top: 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    
+    /* ========== USER SEARCH WIDGET ========== */
+    .search-box {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 11px 14px 11px 38px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    
+    .filter-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    
+    .filter-chip {
+      padding: 5px 10px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .filter-chip:hover,
+    .filter-chip.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    
+    .users-table-container {
+      overflow: auto;
+      max-height: calc(100% - 80px);
+    }
+    
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    
+    .users-table th {
+      text-align: left;
+      padding: 10px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg-card);
+    }
+    
+    .users-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .users-table tr { cursor: pointer; transition: background 0.1s; }
+    .users-table tbody tr:hover { background: var(--bg-secondary); }
+    .users-table tbody tr.selected { background: rgba(249, 115, 22, 0.1); }
+    
+    .user-id-cell {
+      font-family: 'SF Mono', 'Menlo', monospace;
+      font-size: 12px;
+      color: var(--blue);
+    }
+    
+    .tier-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    
+    .tier-badge.owner { background: rgba(168, 85, 247, 0.2); color: var(--purple); }
+    .tier-badge.family { background: rgba(34, 197, 94, 0.2); color: var(--green); }
+    .tier-badge.beta { background: rgba(59, 130, 246, 0.2); color: var(--blue); }
+    .tier-badge.free { background: rgba(113, 113, 122, 0.2); color: var(--text-secondary); }
+    
+    .status-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .status-cell::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    
+    .status-cell.active::before { background: var(--green); }
+    .status-cell.idle::before { background: var(--yellow); }
+    .status-cell.flagged::before { background: var(--red); }
+    
+    /* ========== ACTIVITY FEED WIDGET ========== */
+    .activity-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .activity-item {
+      display: grid;
+      grid-template-columns: 50px 70px auto 70px 50px 30px;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      font-size: 12px;
+      transition: all 0.1s;
+    }
+    
+    .activity-item:hover { background: var(--bg-card-hover); }
+    .activity-time { color: var(--text-muted); font-size: 11px; }
+    .activity-user { font-family: monospace; color: var(--blue); font-size: 11px; }
+    
+    .activity-type {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .activity-type.drop { background: rgba(59, 130, 246, 0.15); color: var(--blue); }
+    .activity-type.command { background: rgba(168, 85, 247, 0.15); color: var(--purple); }
+    
+    .activity-meta { color: var(--text-secondary); }
+    .activity-category { color: var(--text-muted); }
+    .security-badge { text-align: center; }
+    
+    /* ========== USER 360 WIDGET ========== */
+    .user-360-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    
+    .user-360-empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.3; }
+    
+    .user-360-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    
+    .user-360-avatar {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, var(--accent), var(--purple));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    
+    .user-360-info { flex: 1; }
+    .user-360-id { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+    .user-360-email { font-size: 12px; color: var(--text-muted); }
+    
+    .user-360-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    
+    .stat-card {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    
+    .stat-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+    .stat-value { font-size: 18px; font-weight: 600; }
+    
+    .progress-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--yellow));
+      border-radius: 2px;
+    }
+    
+    .user-360-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    
+    .action-btn {
+      padding: 8px 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    
+    .action-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+    
+    .action-btn.danger {
+      color: var(--red);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+    
+    .action-btn.danger:hover {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: var(--red);
+    }
+    
+    /* ========== ALERTS WIDGET ========== */
+    .alerts-list { display: flex; flex-direction: column; gap: 8px; }
+    
+    .alert-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      border-left: 3px solid;
+    }
+    
+    .alert-item.critical { border-left-color: var(--red); }
+    .alert-item.warning { border-left-color: var(--yellow); }
+    .alert-item.info { border-left-color: var(--blue); }
+    
+    .alert-icon { font-size: 18px; flex-shrink: 0; }
+    .alert-content { flex: 1; min-width: 0; }
+    .alert-title { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+    .alert-desc { font-size: 12px; color: var(--text-muted); }
+    .alert-time { font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
+    
+    /* ========== HEALTH WIDGET ========== */
+    .health-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    
+    .health-card {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+    }
+    
+    .health-icon { font-size: 24px; margin-bottom: 8px; }
+    .health-name { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+    .health-status { font-size: 11px; font-weight: 600; }
+    .health-status.ok { color: var(--green); }
+    .health-status.warning { color: var(--yellow); }
+    .health-status.error { color: var(--red); }
+    
+    /* ========== COSTS WIDGET ========== */
+    .costs-total {
+      text-align: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    
+    .costs-total-value { font-size: 36px; font-weight: 700; color: var(--purple); }
+    .costs-total-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    
+    .costs-breakdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .cost-item { text-align: center; }
+    .cost-value { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+    .cost-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    
+    /* ========== CHART WIDGET ========== */
+    .chart-container { position: relative; height: 100%; min-height: 180px; }
+    
+    /* ========== EMPTY STATE ========== */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 150px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    
+    .empty-state-icon { font-size: 40px; margin-bottom: 10px; opacity: 0.3; }
+    .empty-state-text { font-size: 13px; }
+    
+    /* ========== LOADING ========== */
+    .loading { display: flex; align-items: center; justify-content: center; height: 100%; min-height: 100px; }
+    
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* ========== TOAST ========== */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .toast.success { border-color: var(--green); }
+    .toast.error { border-color: var(--red); }
+    
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1200px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    
+    @media (max-width: 768px) {
+      .header { padding: 0 16px; }
+      .header-center { display: none; }
+      .main-content { padding: 12px; }
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-logo">🧠</div>
+      <h1 class="login-title">CORTEX</h1>
+      <p class="login-subtitle">Syntrise Admin Dashboard v3.0</p>
+      
+      <button class="login-btn login-btn-google" onclick="handleGoogleLogin()">
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
+          <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/>
+          <path fill="#FBBC05" d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z"/>
+          <path fill="#EA4335" d="M8.98 3.58c1.16 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.9z"/>
+        </svg>
+        Sign in with Google
+      </button>
+      
+      <div class="login-error" id="loginError"></div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="app" style="display: none;">
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <div class="logo-icon">🧠</div>
+          <span class="logo-text">CORTEX</span>
+        </div>
+        <span class="version-badge">v3.0</span>
+      </div>
+      
+      <div class="header-center">
+        <button class="header-btn" onclick="addWidget()">➕ Add Widget</button>
+        <button class="header-btn" onclick="resetLayout()">↺ Reset</button>
+        <button class="header-btn primary" onclick="saveLayout()">💾 Save</button>
+      </div>
+      
+      <div class="header-right">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span>Connected</span>
+        </div>
+        <div class="user-menu" onclick="handleLogout()">
+          <div class="user-avatar" id="userAvatar">?</div>
+          <span class="user-email" id="userEmail">loading...</span>
+        </div>
+      </div>
+    </header>
+    
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <span class="toolbar-title">📊 Dashboard — Drag widgets to customize</span>
+        <div class="edit-mode-toggle">
+          <span>Edit Mode</span>
+          <div class="toggle-switch active" id="editModeToggle" onclick="toggleEditMode()"></div>
+        </div>
+      </div>
+      <div class="toolbar-right">
+        <span>Last refresh: <span id="lastRefresh">--</span></span>
+        <button class="header-btn" onclick="refreshAll()" style="margin-left: 8px;">🔄</button>
+      </div>
+    </div>
+    
+    <main class="main-content">
+      <div class="grid-stack" id="grid"></div>
+    </main>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://ughfdhmyflotgsysvrrc.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnaGZkaG15ZmxvdGdzeXN2cnJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwMzA3MjQsImV4cCI6MjA0OTYwNjcyNH0.aKey9jSIlAzDdVobXdV9W2bJL1FY0BVwlALOoXjHn1w';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
+    let currentUser = null;
+    let grid = null;
+    let editMode = true;
+    let charts = {};
+    
+    const data = {
+      totalDrops: 0,
+      totalCommands: 0,
+      totalUsers: 0,
+      alertCount: 0,
+      apiCosts: { total: 0, anthropic: 0, openai: 0, elevenlabs: 0 },
+      users: [],
+      activity: [],
+      selectedUser: null
+    };
+    
+    const DEFAULT_LAYOUT = [
+      { x: 0, y: 0, w: 12, h: 2, id: 'kpi' },
+      { x: 0, y: 2, w: 5, h: 4, id: 'users' },
+      { x: 5, y: 2, w: 4, h: 4, id: 'activity' },
+      { x: 9, y: 2, w: 3, h: 4, id: 'user360' },
+      { x: 0, y: 6, w: 4, h: 3, id: 'alerts' },
+      { x: 4, y: 6, w: 4, h: 3, id: 'chart' },
+      { x: 8, y: 6, w: 2, h: 3, id: 'health' },
+      { x: 10, y: 6, w: 2, h: 3, id: 'costs' }
+    ];
+    
+    const WIDGETS = {
+      kpi: { title: '📊 Key Metrics', minW: 4, minH: 2, render: renderKPIWidget },
+      users: { title: '👥 Users', minW: 3, minH: 3, render: renderUsersWidget },
+      activity: { title: '📡 Live Activity', minW: 3, minH: 3, render: renderActivityWidget },
+      user360: { title: '👤 User 360°', minW: 2, minH: 3, render: renderUser360Widget },
+      alerts: { title: '🚨 Security Alerts', minW: 2, minH: 2, render: renderAlertsWidget },
+      chart: { title: '📈 Activity Chart', minW: 3, minH: 2, render: renderChartWidget },
+      health: { title: '💚 Health', minW: 2, minH: 2, render: renderHealthWidget },
+      costs: { title: '💰 API Costs', minW: 2, minH: 2, render: renderCostsWidget }
+    };
+    
+    async function init() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) await verifyOwnerAccess(session);
+      
+      supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_IN' && session?.user) await verifyOwnerAccess(session);
+      });
+    }
+    
+    async function verifyOwnerAccess(session) {
+      try {
+        const { data: limits } = await supabase
+          .from('user_limits')
+          .select('tier')
+          .eq('user_id', session.user.id)
+          .single();
+        
+        if (limits?.tier === 'owner') {
+          currentUser = session.user;
+          if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+          showApp();
+        } else {
+          await supabase.auth.signOut();
+          showLoginError('Access denied. Owner account required.');
+        }
+      } catch (e) {
+        console.error('Verify error:', e);
+        showLoginError('Error verifying access.');
+      }
+    }
+    
+    function showApp() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('userEmail').textContent = currentUser.email;
+      document.getElementById('userAvatar').textContent = currentUser.email.charAt(0).toUpperCase();
+      initGrid();
+      refreshAll();
+      setInterval(refreshAll, 30000);
+    }
+    
+    function initGrid() {
+      grid = GridStack.init({
+        column: 12,
+        cellHeight: 80,
+        margin: 8,
+        float: false,
+        animate: true,
+        draggable: { handle: '.widget-header' },
+        resizable: { handles: 'se, sw, e, w' }
+      });
+      
+      const saved = localStorage.getItem('cortex_v3_layout');
+      loadLayout(saved ? JSON.parse(saved) : DEFAULT_LAYOUT);
+      grid.on('change', saveLayoutDebounced);
+    }
+    
+    function loadLayout(layout) {
+      grid.removeAll();
+      layout.forEach(item => {
+        const widget = WIDGETS[item.id];
+        if (!widget) return;
+        
+        grid.addWidget({
+          x: item.x, y: item.y, w: item.w, h: item.h,
+          minW: widget.minW, minH: widget.minH,
+          id: item.id,
+          content: createWidgetHTML(item.id, widget.title)
+        });
+        widget.render(item.id);
+      });
+    }
+    
+    function createWidgetHTML(id, title) {
+      return `
+        <div class="widget-header">
+          <span class="widget-title">${title}</span>
+          <div class="widget-actions">
+            <button class="widget-action" onclick="refreshWidget('${id}')" title="Refresh">🔄</button>
+            <button class="widget-action" onclick="removeWidget('${id}')" title="Remove">✕</button>
+          </div>
+        </div>
+        <div class="widget-body" id="body-${id}">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+      `;
+    }
+    
+    // ============ WIDGET RENDERERS ============
+    function renderKPIWidget(id) {
+      const body = document.getElementById(`body-${id}`);
+      body.innerHTML = `
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon blue">📝</div>
+            <div class="kpi-label">Total Drops</div>
+            <div class="kpi-value blue" id="kpi-drops">--</div>
+            <div class="kpi-change">All time</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon green">👥</div>
+            <div class="kpi-label">Users</div>
+            <div class="kpi-value green" id="kpi-users">--</div>
+            <div class="kpi-change">Registered</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon yellow">⚡</div>
+            <div class="kpi-label">Commands</div>
+            <div class="kpi-value yellow" id="kpi-commands">--</div>
+            <div class="kpi-change">This month</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon purple">💰</div>
+            <div class="kpi-label">API Costs</div>
+            <div class="kpi-value purple" id="kpi-costs">$--</div>
+            <div class="kpi-change">This month</div>
+          </div>
+        </div>
+      `;
+      updateKPIs();
+    }
+    
+    function renderUsersWidget(id) {
+      const body = document.getElementById(`body-${id}`);
+      body.innerHTML = `
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="userSearch" placeholder="Search..." oninput="filterUsers()">
+        </div>
+        <div class="filter-chips">
+          <span class="filter-chip active" onclick="filterByTier('all', this)">All</span>
+          <span class="filter-chip" onclick="filterByTier('owner', this)">👑 Owner</span>
+          <span class="filter-chip" onclick="filterByTier('family', this)">👨‍👩‍👧 Family</span>
+          <span class="filter-chip" onclick="filterByTier('beta', this)">🧪 Beta</span>
+          <span class="filter-chip" onclick="filterByTier('free', this)">Free</span>
+        </div>
+        <div class="users-table-container">
+          <table class="users-table">
+            <thead><tr><th>User ID</th><th>Tier</th><th>Drops</th><th>Last Active</th><th>Status</th></tr></thead>
+            <tbody id="usersTableBody"><tr><td colspan="5" class="loading"><div class="spinner"></div></td></tr></tbody>
+          </table>
+        </div>
+      `;
+      updateUsersTable();
+    }
+    
+    function renderActivityWidget(id) {
+      const body = document.getElementById(`body-${id}`);
+      body.classList.add('no-padding');
+      body.innerHTML = `<div class="activity-feed" id="activityFeed" style="padding: 12px;"></div>`;
+      updateActivityFeed();
+    }
+    
+    function renderUser360Widget(id) {
+      const body = document.getElementById(`body-${id}`);
+      if (!data.selectedUser) {
+        body.innerHTML = `<div class="user-360-empty"><div class="user-360-empty-icon">👤</div><p>Select a user</p></div>`;
+        return;
+      }
+      const u = data.selectedUser;
+      const dropsPercent = u.tier === 'free' ? Math.min(100, (u.drops_count / 50) * 100) : 100;
+      body.innerHTML = `
+        <div class="user-360-header">
+          <div class="user-360-avatar">👤</div>
+          <div class="user-360-info">
+            <div class="user-360-id">${maskId(u.id)}</div>
+            <div class="user-360-email">${maskEmail(u.email || '')}</div>
+          </div>
+          <span class="tier-badge ${u.tier}">${u.tier}</span>
+        </div>
+        <div class="user-360-stats">
+          <div class="stat-card">
+            <div class="stat-label">Drops</div>
+            <div class="stat-value">${u.drops_count || 0}${u.tier === 'free' ? '/50' : ''}</div>
+            ${u.tier === 'free' ? `<div class="progress-bar"><div class="progress-fill" style="width:${dropsPercent}%"></div></div>` : ''}
+          </div>
+          <div class="stat-card"><div class="stat-label">Commands</div><div class="stat-value">${u.commands_count || 0}</div></div>
+          <div class="stat-card"><div class="stat-label">Created</div><div class="stat-value">${formatDate(u.created_at)}</div></div>
+          <div class="stat-card"><div class="stat-label">Last Active</div><div class="stat-value">${u.last_active ? timeAgo(u.last_active) : 'N/A'}</div></div>
+        </div>
+        <div class="user-360-actions">
+          <button class="action-btn" onclick="viewUserDrops('${u.id}')">View Drops</button>
+          <button class="action-btn" onclick="changeTier('${u.id}')">Change Tier</button>
+          <button class="action-btn danger" onclick="banUser('${u.id}')">🚫 Ban</button>
+        </div>
+      `;
+    }
+    
+    function renderAlertsWidget(id) {
+      const body = document.getElementById(`body-${id}`);
+      const alerts = [
+        { type: 'warning', icon: '⚠️', title: 'High command rate', desc: 'User c8e***b3: 50+ commands/hour', time: '5m ago' },
+        { type: 'info', icon: 'ℹ️', title: 'New beta user', desc: 'User 7b2***c1 activated', time: '2h ago' }
+      ];
+      body.innerHTML = `<div class="alerts-list">${alerts.map(a => `
+        <div class="alert-item ${a.type}">
+          <span class="alert-icon">${a.icon}</span>
+          <div class="alert-content"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.desc}</div></div>
+          <span class="alert-time">${a.time}</span>
+        </div>
+      `).join('')}</div>`;
+    }
+    
+    function renderChartWidget(id) {
+      const body = document.getElementById(`body-${id}`);
+      body.innerHTML = `<div class="chart-container"><canvas id="activityChart"></canvas></div>`;
+      const ctx = document.getElementById('activityChart');
+      if (charts.activity) charts.activity.destroy();
+      charts.activity = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [
+            { label: 'Drops', data: [12, 19, 8, 15, 22, 18, 25], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', tension: 0.4, fill: true },
+            { label: 'Commands', data: [8, 12, 5, 9, 14, 11, 17], borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,0.1)', tension: 0.4, fill: true }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: true, position: 'bottom', labels: { color: '#a1a1aa', boxWidth: 12, padding: 15 } } },
+          scales: { x: { grid: { color: '#27272a' }, ticks: { color: '#52525b' } }, y: { grid: { color: '#27272a' }, ticks: { color: '#52525b' } } }
+        }
+      });
+    }
+    
+    function renderHealthWidget(id) {
+      const body = document.getElementById(`body-${id}`);
+      body.innerHTML = `
+        <div class="health-grid">
+          <div class="health-card"><div class="health-icon">🗄️</div><div class="health-name">Supabase</div><div class="health-status ok" id="health-db">OK</div></div>
+          <div class="health-card"><div class="health-icon">🤖</div><div class="health-name">Claude</div><div class="health-status ok">OK</div></div>
+          <div class="health-card"><div class="health-icon">🔊</div><div class="health-name">TTS</div><div class="health-status ok">OK</div></div>
+        </div>
+      `;
+      checkHealth();
+    }
+    
+    function renderCostsWidget(id) {
+      const body = document.getElementById(`body-${id}`);
+      body.innerHTML = `
+        <div class="costs-total">
+          <div class="costs-total-value" id="costs-total">$--</div>
+          <div class="costs-total-label">This month</div>
+        </div>
+        <div class="costs-breakdown">
+          <div class="cost-item"><div class="cost-value" id="costs-anthropic">$--</div><div class="cost-label">Anthropic</div></div>
+          <div class="cost-item"><div class="cost-value" id="costs-openai">$--</div><div class="cost-label">OpenAI</div></div>
+          <div class="cost-item"><div class="cost-value" id="costs-11labs">$--</div><div class="cost-label">ElevenLabs</div></div>
+        </div>
+      `;
+      updateCosts();
+    }
+    
+    // ============ DATA LOADING ============
+    async function refreshAll() {
+      document.getElementById('lastRefresh').textContent = new Date().toLocaleTimeString();
+      await Promise.all([loadUsers(), loadDropsCount(), loadCommandsCount(), loadActivity(), loadCosts()]);
+      updateKPIs(); updateUsersTable(); updateActivityFeed();
+    }
+    
+    async function loadUsers() {
+      try {
+        const { data: limits } = await supabase.from('user_limits').select('user_id, tier').order('tier');
+        const userIds = limits.map(u => u.user_id);
+        const { data: dropCounts } = await supabase.from('drops').select('user_id').in('user_id', userIds);
+        const dropsMap = {};
+        (dropCounts || []).forEach(d => { dropsMap[d.user_id] = (dropsMap[d.user_id] || 0) + 1; });
+        data.users = limits.map(u => ({ id: u.user_id, tier: u.tier, drops_count: dropsMap[u.user_id] || 0, email: '', commands_count: 0, last_active: null, status: 'active' }));
+        data.totalUsers = limits.length;
+      } catch (e) { console.error('Error loading users:', e); }
+    }
+    
+    async function loadDropsCount() {
+      try { const { count } = await supabase.from('drops').select('id', { count: 'exact', head: true }); data.totalDrops = count || 0; } catch (e) { console.error(e); }
+    }
+    
+    async function loadCommandsCount() {
+      try {
+        const startOfMonth = new Date(); startOfMonth.setDate(1); startOfMonth.setHours(0, 0, 0, 0);
+        const { count } = await supabase.from('command_drops').select('id', { count: 'exact', head: true }).gte('created', startOfMonth.toISOString());
+        data.totalCommands = count || 0;
+      } catch (e) { console.error(e); }
+    }
+    
+    async function loadActivity() {
+      try {
+        const { data: drops } = await supabase.from('drops').select('id, user_id, category, created').order('created', { ascending: false }).limit(8);
+        const { data: commands } = await supabase.from('command_drops').select('id, user_id, command_type, created').order('created', { ascending: false }).limit(8);
+        data.activity = [
+          ...(drops || []).map(d => ({ type: 'drop', user_id: d.user_id, category: d.category || 'note', created: d.created, size: Math.floor(Math.random() * 400) + 50 })),
+          ...(commands || []).map(c => ({ type: 'command', user_id: c.user_id, category: c.command_type || 'ask', created: c.created, size: Math.floor(Math.random() * 800) + 100 }))
+        ].sort((a, b) => new Date(b.created) - new Date(a.created)).slice(0, 12);
+      } catch (e) { console.error(e); }
+    }
+    
+    async function loadCosts() {
+      try {
+        const startOfMonth = new Date(); startOfMonth.setDate(1); startOfMonth.setHours(0, 0, 0, 0);
+        const { data: costs } = await supabase.from('api_costs').select('provider, cost').gte('created', startOfMonth.toISOString());
+        const totals = { anthropic: 0, openai: 0, elevenlabs: 0 };
+        (costs || []).forEach(row => {
+          const p = (row.provider || '').toLowerCase();
+          if (p.includes('anthropic') || p.includes('claude')) totals.anthropic += row.cost;
+          else if (p.includes('openai')) totals.openai += row.cost;
+          else if (p.includes('elevenlabs') || p.includes('eleven')) totals.elevenlabs += row.cost;
+        });
+        data.apiCosts = { total: totals.anthropic + totals.openai + totals.elevenlabs, ...totals };
+      } catch (e) { console.error(e); }
+    }
+    
+    async function checkHealth() {
+      const el = document.getElementById('health-db'); if (!el) return;
+      try {
+        const start = Date.now();
+        const { error } = await supabase.from('drops').select('id').limit(1);
+        const ms = Date.now() - start;
+        el.textContent = error ? 'Error' : `${ms}ms`;
+        el.className = `health-status ${error ? 'error' : 'ok'}`;
+      } catch (e) { el.textContent = 'Error'; el.className = 'health-status error'; }
+    }
+    
+    // ============ UI UPDATES ============
+    function updateKPIs() {
+      const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      set('kpi-drops', data.totalDrops.toLocaleString());
+      set('kpi-users', data.totalUsers.toLocaleString());
+      set('kpi-commands', data.totalCommands.toLocaleString());
+      set('kpi-costs', '$' + data.apiCosts.total.toFixed(2));
+    }
+    
+    function updateUsersTable() {
+      const tbody = document.getElementById('usersTableBody'); if (!tbody) return;
+      if (data.users.length === 0) { tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px;">No users</td></tr>`; return; }
+      tbody.innerHTML = data.users.map(u => `
+        <tr onclick="selectUser('${u.id}')" class="${data.selectedUser?.id === u.id ? 'selected' : ''}">
+          <td><span class="user-id-cell">${maskId(u.id)}</span></td>
+          <td><span class="tier-badge ${u.tier}">${u.tier}</span></td>
+          <td>${u.drops_count}</td>
+          <td>${u.last_active ? timeAgo(u.last_active) : '--'}</td>
+          <td><span class="status-cell ${u.status}">${u.status}</span></td>
+        </tr>
+      `).join('');
+    }
+    
+    function updateActivityFeed() {
+      const container = document.getElementById('activityFeed'); if (!container) return;
+      if (data.activity.length === 0) { container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📡</div><p>No activity</p></div>`; return; }
+      container.innerHTML = data.activity.map(a => `
+        <div class="activity-item">
+          <span class="activity-time">${timeAgo(a.created)}</span>
+          <span class="activity-user">${maskId(a.user_id)}</span>
+          <span class="activity-type ${a.type}">${a.type}</span>
+          <span class="activity-meta">${a.size} chars</span>
+          <span class="activity-category">${a.category}</span>
+          <span class="security-badge">${getSecurityBadge(a)}</span>
+        </div>
+      `).join('');
+    }
+    
+    function updateCosts() {
+      const c = data.apiCosts;
+      const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = '$' + val.toFixed(2); };
+      set('costs-total', c.total); set('costs-anthropic', c.anthropic); set('costs-openai', c.openai); set('costs-11labs', c.elevenlabs);
+    }
+    
+    // ============ USER INTERACTIONS ============
+    function selectUser(userId) {
+      const user = data.users.find(u => u.id === userId);
+      if (user) { data.selectedUser = user; updateUsersTable(); renderUser360Widget('user360'); }
+    }
+    
+    function filterUsers() {
+      const search = (document.getElementById('userSearch')?.value || '').toLowerCase();
+      document.querySelectorAll('#usersTableBody tr').forEach(row => { row.style.display = row.textContent.toLowerCase().includes(search) ? '' : 'none'; });
+    }
+    
+    function filterByTier(tier, btn) {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('#usersTableBody tr').forEach(row => {
+        if (tier === 'all') { row.style.display = ''; }
+        else { const badge = row.querySelector('.tier-badge'); row.style.display = badge?.classList.contains(tier) ? '' : 'none'; }
+      });
+    }
+    
+    // ============ LAYOUT ============
+    let saveTimeout;
+    function saveLayoutDebounced() { clearTimeout(saveTimeout); saveTimeout = setTimeout(() => { localStorage.setItem('cortex_v3_layout', JSON.stringify(grid.save(false))); }, 500); }
+    function saveLayout() { localStorage.setItem('cortex_v3_layout', JSON.stringify(grid.save(false))); showToast('✅ Layout saved'); }
+    function resetLayout() { if (confirm('Reset to default?')) { localStorage.removeItem('cortex_v3_layout'); loadLayout(DEFAULT_LAYOUT); showToast('↺ Reset'); } }
+    
+    function addWidget() {
+      const available = Object.entries(WIDGETS).filter(([id]) => !grid.getGridItems().find(el => el.gridstackNode?.id === id)).map(([id, w]) => `${id}: ${w.title}`).join('\n');
+      if (!available) { showToast('All widgets added'); return; }
+      const id = prompt('Enter widget ID:\n\n' + available);
+      if (id && WIDGETS[id]) {
+        const w = WIDGETS[id];
+        grid.addWidget({ w: w.minW || 3, h: w.minH || 2, minW: w.minW, minH: w.minH, id: id, content: createWidgetHTML(id, w.title) });
+        w.render(id);
+        showToast(`➕ Added ${w.title}`);
+      }
+    }
+    
+    function removeWidget(id) { const item = grid.getGridItems().find(el => el.gridstackNode?.id === id); if (item) { grid.removeWidget(item); showToast('Removed'); } }
+    function refreshWidget(id) { const w = WIDGETS[id]; if (w?.render) w.render(id); }
+    function toggleEditMode() { editMode = !editMode; document.getElementById('editModeToggle').classList.toggle('active', editMode); grid.enableMove(editMode); grid.enableResize(editMode); }
+    
+    // ============ AUTH ============
+    async function handleGoogleLogin() { const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin + window.location.pathname } }); if (error) showLoginError(error.message); }
+    async function handleLogout() { if (confirm('Sign out?')) { await supabase.auth.signOut(); window.location.reload(); } }
+    function showLoginError(msg) { const el = document.getElementById('loginError'); el.textContent = msg; el.style.display = 'block'; }
+    
+    // ============ UTILITIES ============
+    function maskId(id) { if (!id) return '--'; return id.substring(0, 3) + '***' + id.slice(-2); }
+    function maskEmail(email) { if (!email) return ''; const [user, domain] = email.split('@'); if (!domain) return '***'; return user.substring(0, 2) + '***@' + domain.substring(0, 2) + '***'; }
+    function timeAgo(date) { if (!date) return '--'; const sec = Math.floor((Date.now() - new Date(date)) / 1000); if (sec < 60) return 'now'; if (sec < 3600) return Math.floor(sec / 60) + 'm'; if (sec < 86400) return Math.floor(sec / 3600) + 'h'; return Math.floor(sec / 86400) + 'd'; }
+    function formatDate(date) { if (!date) return '--'; return new Date(date).toLocaleDateString(); }
+    function getSecurityBadge(item) { if (item.size > 5000) return '⚠️'; if (item.size > 10000) return '🚨'; return '✓'; }
+    function showToast(msg) { const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = msg; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+    
+    function viewUserDrops(id) { alert('View drops: ' + maskId(id)); }
+    function changeTier(id) { alert('Change tier: ' + maskId(id)); }
+    function banUser(id) { if (confirm('Ban ' + maskId(id) + '?')) alert('Banned (mock)'); }
+    
+    init();
+  </script>
+</body>
+</html>
