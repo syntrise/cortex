@@ -144,17 +144,8 @@
       z-index: 100;
     }
     
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
     
     .logo-icon {
       width: 32px;
@@ -167,11 +158,7 @@
       font-size: 16px;
     }
     
-    .logo-text {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--accent);
-    }
+    .logo-text { font-size: 18px; font-weight: 700; color: var(--accent); }
     
     .version-badge {
       font-size: 10px;
@@ -182,11 +169,7 @@
       border: 1px solid var(--border);
     }
     
-    .header-center {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .header-center { display: flex; align-items: center; gap: 8px; }
     
     .header-btn {
       padding: 8px 14px;
@@ -214,15 +197,8 @@
       color: white;
     }
     
-    .header-btn.primary:hover {
-      background: var(--accent-hover);
-    }
-    
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .header-btn.primary:hover { background: var(--accent-hover); }
+    .header-right { display: flex; align-items: center; gap: 12px; }
     
     .status-indicator {
       display: flex;
@@ -257,9 +233,7 @@
       transition: all 0.15s;
     }
     
-    .user-menu:hover {
-      border-color: var(--border-hover);
-    }
+    .user-menu:hover { border-color: var(--border-hover); }
     
     .user-avatar {
       width: 28px;
@@ -291,16 +265,8 @@
       justify-content: space-between;
     }
     
-    .toolbar-left {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    
-    .toolbar-title {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
+    .toolbar-left { display: flex; align-items: center; gap: 16px; }
+    .toolbar-title { font-size: 13px; color: var(--text-muted); }
     
     .edit-mode-toggle {
       display: flex;
@@ -320,9 +286,7 @@
       transition: background 0.2s;
     }
     
-    .toggle-switch.active {
-      background: var(--accent);
-    }
+    .toggle-switch.active { background: var(--accent); }
     
     .toggle-switch::after {
       content: '';
@@ -336,9 +300,7 @@
       transition: transform 0.2s;
     }
     
-    .toggle-switch.active::after {
-      transform: translateX(16px);
-    }
+    .toggle-switch.active::after { transform: translateX(16px); }
     
     .toolbar-right {
       display: flex;
@@ -366,9 +328,7 @@
       flex-direction: column;
     }
     
-    .grid-stack-item-content:hover {
-      border-color: var(--border-hover);
-    }
+    .grid-stack-item-content:hover { border-color: var(--border-hover); }
     
     .gs-item-dragging .grid-stack-item-content {
       box-shadow: 0 20px 40px rgba(0,0,0,0.5);
@@ -394,10 +354,7 @@
       gap: 8px;
     }
     
-    .widget-actions {
-      display: flex;
-      gap: 4px;
-    }
+    .widget-actions { display: flex; gap: 4px; }
     
     .widget-action {
       width: 28px;
@@ -419,12 +376,7 @@
       color: var(--text-primary);
     }
     
-    .widget-body {
-      padding: 18px;
-      flex: 1;
-      overflow: auto;
-    }
-    
+    .widget-body { padding: 18px; flex: 1; overflow: auto; }
     .widget-body.no-padding { padding: 0; }
     
     /* ========== KPI WIDGET ========== */
@@ -474,12 +426,7 @@
       letter-spacing: 0.5px;
     }
     
-    .kpi-value {
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 1.1;
-    }
-    
+    .kpi-value { font-size: 28px; font-weight: 700; line-height: 1.1; }
     .kpi-value.blue { color: var(--blue); }
     .kpi-value.green { color: var(--green); }
     .kpi-value.yellow { color: var(--yellow); }
@@ -493,10 +440,7 @@
     }
     
     /* ========== USER SEARCH WIDGET ========== */
-    .search-box {
-      position: relative;
-      margin-bottom: 14px;
-    }
+    .search-box { position: relative; margin-bottom: 14px; }
     
     .search-input {
       width: 100%;
@@ -524,12 +468,7 @@
       font-size: 14px;
     }
     
-    .filter-chips {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
     
     .filter-chip {
       padding: 5px 10px;
@@ -542,23 +481,15 @@
       transition: all 0.15s;
     }
     
-    .filter-chip:hover,
-    .filter-chip.active {
+    .filter-chip:hover, .filter-chip.active {
       background: var(--accent);
       border-color: var(--accent);
       color: white;
     }
     
-    .users-table-container {
-      overflow: auto;
-      max-height: calc(100% - 80px);
-    }
+    .users-table-container { overflow: auto; max-height: calc(100% - 80px); }
     
-    .users-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
+    .users-table { width: 100%; border-collapse: collapse; font-size: 13px; }
     
     .users-table th {
       text-align: left;
@@ -574,11 +505,7 @@
       background: var(--bg-card);
     }
     
-    .users-table td {
-      padding: 11px 12px;
-      border-bottom: 1px solid var(--border);
-    }
-    
+    .users-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); }
     .users-table tr { cursor: pointer; transition: background 0.1s; }
     .users-table tbody tr:hover { background: var(--bg-secondary); }
     .users-table tbody tr.selected { background: rgba(249, 115, 22, 0.1); }
@@ -604,29 +531,14 @@
     .tier-badge.beta { background: rgba(59, 130, 246, 0.2); color: var(--blue); }
     .tier-badge.free { background: rgba(113, 113, 122, 0.2); color: var(--text-secondary); }
     
-    .status-cell {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .status-cell::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-    }
-    
+    .status-cell { display: flex; align-items: center; gap: 6px; }
+    .status-cell::before { content: ''; width: 6px; height: 6px; border-radius: 50%; }
     .status-cell.active::before { background: var(--green); }
     .status-cell.idle::before { background: var(--yellow); }
     .status-cell.flagged::before { background: var(--red); }
     
     /* ========== ACTIVITY FEED WIDGET ========== */
-    .activity-feed {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .activity-feed { display: flex; flex-direction: column; gap: 6px; }
     
     .activity-item {
       display: grid;
@@ -655,7 +567,6 @@
     
     .activity-type.drop { background: rgba(59, 130, 246, 0.15); color: var(--blue); }
     .activity-type.command { background: rgba(168, 85, 247, 0.15); color: var(--purple); }
-    
     .activity-meta { color: var(--text-secondary); }
     .activity-category { color: var(--text-muted); }
     .security-badge { text-align: center; }
@@ -704,12 +615,7 @@
       margin-bottom: 16px;
     }
     
-    .stat-card {
-      background: var(--bg-secondary);
-      border-radius: 8px;
-      padding: 12px;
-    }
-    
+    .stat-card { background: var(--bg-secondary); border-radius: 8px; padding: 12px; }
     .stat-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
     .stat-value { font-size: 18px; font-weight: 600; }
     
@@ -746,15 +652,8 @@
       color: var(--text-primary);
     }
     
-    .action-btn.danger {
-      color: var(--red);
-      border-color: rgba(239, 68, 68, 0.3);
-    }
-    
-    .action-btn.danger:hover {
-      background: rgba(239, 68, 68, 0.1);
-      border-color: var(--red);
-    }
+    .action-btn.danger { color: var(--red); border-color: rgba(239, 68, 68, 0.3); }
+    .action-btn.danger:hover { background: rgba(239, 68, 68, 0.1); border-color: var(--red); }
     
     /* ========== ALERTS WIDGET ========== */
     .alerts-list { display: flex; flex-direction: column; gap: 8px; }
@@ -771,7 +670,6 @@
     .alert-item.critical { border-left-color: var(--red); }
     .alert-item.warning { border-left-color: var(--yellow); }
     .alert-item.info { border-left-color: var(--blue); }
-    
     .alert-icon { font-size: 18px; flex-shrink: 0; }
     .alert-content { flex: 1; min-width: 0; }
     .alert-title { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
@@ -805,7 +703,6 @@
     
     .costs-total-value { font-size: 36px; font-weight: 700; color: var(--purple); }
     .costs-total-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-    
     .costs-breakdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
     .cost-item { text-align: center; }
     .cost-value { font-size: 18px; font-weight: 600; color: var(--text-primary); }
@@ -853,27 +750,17 @@
       padding: 14px 20px;
       border-radius: 10px;
       font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
       z-index: 1000;
       animation: slideIn 0.3s ease;
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
-    
-    .toast.success { border-color: var(--green); }
-    .toast.error { border-color: var(--red); }
     
     @keyframes slideIn {
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
     
-    /* ========== RESPONSIVE ========== */
-    @media (max-width: 1200px) {
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    
+    @media (max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 768px) {
       .header { padding: 0 16px; }
       .header-center { display: none; }
@@ -890,7 +777,7 @@
       <h1 class="login-title">CORTEX</h1>
       <p class="login-subtitle">Syntrise Admin Dashboard v3.0</p>
       
-      <button class="login-btn login-btn-google" onclick="handleGoogleLogin()">
+      <button class="login-btn login-btn-google" id="googleLoginBtn">
         <svg width="18" height="18" viewBox="0 0 18 18">
           <path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z"/>
           <path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/>
@@ -916,9 +803,9 @@
       </div>
       
       <div class="header-center">
-        <button class="header-btn" onclick="addWidget()">➕ Add Widget</button>
-        <button class="header-btn" onclick="resetLayout()">↺ Reset</button>
-        <button class="header-btn primary" onclick="saveLayout()">💾 Save</button>
+        <button class="header-btn" id="addWidgetBtn">➕ Add Widget</button>
+        <button class="header-btn" id="resetLayoutBtn">↺ Reset</button>
+        <button class="header-btn primary" id="saveLayoutBtn">💾 Save</button>
       </div>
       
       <div class="header-right">
@@ -926,7 +813,7 @@
           <span class="status-dot"></span>
           <span>Connected</span>
         </div>
-        <div class="user-menu" onclick="handleLogout()">
+        <div class="user-menu" id="userMenu">
           <div class="user-avatar" id="userAvatar">?</div>
           <span class="user-email" id="userEmail">loading...</span>
         </div>
@@ -938,12 +825,12 @@
         <span class="toolbar-title">📊 Dashboard — Drag widgets to customize</span>
         <div class="edit-mode-toggle">
           <span>Edit Mode</span>
-          <div class="toggle-switch active" id="editModeToggle" onclick="toggleEditMode()"></div>
+          <div class="toggle-switch active" id="editModeToggle"></div>
         </div>
       </div>
       <div class="toolbar-right">
         <span>Last refresh: <span id="lastRefresh">--</span></span>
-        <button class="header-btn" onclick="refreshAll()" style="margin-left: 8px;">🔄</button>
+        <button class="header-btn" id="refreshBtn" style="margin-left: 8px;">🔄</button>
       </div>
     </div>
     
@@ -953,24 +840,20 @@
   </div>
 
   <script>
+    // ============ CONFIG ============
     const SUPABASE_URL = 'https://ughfdhmyflotgsysvrrc.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVnaGZkaG15ZmxvdGdzeXN2cnJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQwMzA3MjQsImV4cCI6MjA0OTYwNjcyNH0.aKey9jSIlAzDdVobXdV9W2bJL1FY0BVwlALOoXjHn1w';
     
-    console.log('[Init] Creating Supabase client...');
-    let supabase;
-    try {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      console.log('[Init] Supabase client created:', !!supabase);
-    } catch (e) {
-      console.error('[Init] Failed to create Supabase client:', e);
-    }
+    // Use different variable name to avoid conflict with window.supabase
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     
+    // ============ STATE ============
     let currentUser = null;
     let grid = null;
     let editMode = true;
     let charts = {};
     
-    const data = {
+    const appData = {
       totalDrops: 0,
       totalCommands: 0,
       totalUsers: 0,
@@ -981,6 +864,7 @@
       selectedUser: null
     };
     
+    // ============ DEFAULT LAYOUT ============
     const DEFAULT_LAYOUT = [
       { x: 0, y: 0, w: 12, h: 2, id: 'kpi' },
       { x: 0, y: 2, w: 5, h: 4, id: 'users' },
@@ -992,6 +876,7 @@
       { x: 10, y: 6, w: 2, h: 3, id: 'costs' }
     ];
     
+    // ============ WIDGET DEFINITIONS ============
     const WIDGETS = {
       kpi: { title: '📊 Key Metrics', minW: 4, minH: 2, render: renderKPIWidget },
       users: { title: '👥 Users', minW: 3, minH: 3, render: renderUsersWidget },
@@ -1003,49 +888,58 @@
       costs: { title: '💰 API Costs', minW: 2, minH: 2, render: renderCostsWidget }
     };
     
+    // ============ INITIALIZATION ============
     async function init() {
-      console.log('[Init] Starting...');
-      console.log('[Init] window.supabase:', !!window.supabase);
-      console.log('[Init] supabase client:', !!supabase);
+      console.log('[Init] Starting CORTEX v3...');
       
-      if (!supabase) {
-        console.error('[Init] No Supabase client!');
-        showLoginError('Failed to initialize. Please refresh the page.');
-        return;
+      // Attach event listeners
+      document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleLogin);
+      document.getElementById('addWidgetBtn').addEventListener('click', addWidget);
+      document.getElementById('resetLayoutBtn').addEventListener('click', resetLayout);
+      document.getElementById('saveLayoutBtn').addEventListener('click', saveLayout);
+      document.getElementById('userMenu').addEventListener('click', handleLogout);
+      document.getElementById('editModeToggle').addEventListener('click', toggleEditMode);
+      document.getElementById('refreshBtn').addEventListener('click', refreshAll);
+      
+      // Check session
+      const { data: { session } } = await sb.auth.getSession();
+      console.log('[Init] Session:', session?.user?.email || 'none');
+      
+      if (session?.user) {
+        await verifyOwnerAccess(session);
       }
       
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log('[Init] Session:', session?.user?.email || 'none');
-        if (session?.user) await verifyOwnerAccess(session);
-      } catch (e) {
-        console.error('[Init] Error getting session:', e);
-      }
-      
-      supabase.auth.onAuthStateChange(async (event, session) => {
+      // Auth state listener
+      sb.auth.onAuthStateChange(async (event, session) => {
         console.log('[Auth] Event:', event);
-        if (event === 'SIGNED_IN' && session?.user) await verifyOwnerAccess(session);
+        if (event === 'SIGNED_IN' && session?.user) {
+          await verifyOwnerAccess(session);
+        }
       });
     }
     
     async function verifyOwnerAccess(session) {
       try {
-        const { data: limits } = await supabase
+        const { data: limits } = await sb
           .from('user_limits')
           .select('tier')
           .eq('user_id', session.user.id)
           .single();
         
+        console.log('[Auth] User tier:', limits?.tier);
+        
         if (limits?.tier === 'owner') {
           currentUser = session.user;
-          if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+          if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname);
+          }
           showApp();
         } else {
-          await supabase.auth.signOut();
+          await sb.auth.signOut();
           showLoginError('Access denied. Owner account required.');
         }
       } catch (e) {
-        console.error('Verify error:', e);
+        console.error('[Auth] Verify error:', e);
         showLoginError('Error verifying access.');
       }
     }
@@ -1055,6 +949,7 @@
       document.getElementById('app').style.display = 'block';
       document.getElementById('userEmail').textContent = currentUser.email;
       document.getElementById('userAvatar').textContent = currentUser.email.charAt(0).toUpperCase();
+      
       initGrid();
       refreshAll();
       setInterval(refreshAll, 30000);
@@ -1097,8 +992,8 @@
         <div class="widget-header">
           <span class="widget-title">${title}</span>
           <div class="widget-actions">
-            <button class="widget-action" onclick="refreshWidget('${id}')" title="Refresh">🔄</button>
-            <button class="widget-action" onclick="removeWidget('${id}')" title="Remove">✕</button>
+            <button class="widget-action" data-action="refresh" data-id="${id}" title="Refresh">🔄</button>
+            <button class="widget-action" data-action="remove" data-id="${id}" title="Remove">✕</button>
           </div>
         </div>
         <div class="widget-body" id="body-${id}">
@@ -1106,6 +1001,18 @@
         </div>
       `;
     }
+    
+    // Delegate widget button clicks
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      
+      if (action === 'refresh') refreshWidget(id);
+      if (action === 'remove') removeWidget(id);
+    });
     
     // ============ WIDGET RENDERERS ============
     function renderKPIWidget(id) {
@@ -1146,14 +1053,14 @@
       body.innerHTML = `
         <div class="search-box">
           <span class="search-icon">🔍</span>
-          <input type="text" class="search-input" id="userSearch" placeholder="Search..." oninput="filterUsers()">
+          <input type="text" class="search-input" id="userSearch" placeholder="Search...">
         </div>
-        <div class="filter-chips">
-          <span class="filter-chip active" onclick="filterByTier('all', this)">All</span>
-          <span class="filter-chip" onclick="filterByTier('owner', this)">👑 Owner</span>
-          <span class="filter-chip" onclick="filterByTier('family', this)">👨‍👩‍👧 Family</span>
-          <span class="filter-chip" onclick="filterByTier('beta', this)">🧪 Beta</span>
-          <span class="filter-chip" onclick="filterByTier('free', this)">Free</span>
+        <div class="filter-chips" id="filterChips">
+          <span class="filter-chip active" data-tier="all">All</span>
+          <span class="filter-chip" data-tier="owner">👑 Owner</span>
+          <span class="filter-chip" data-tier="family">👨‍👩‍👧 Family</span>
+          <span class="filter-chip" data-tier="beta">🧪 Beta</span>
+          <span class="filter-chip" data-tier="free">Free</span>
         </div>
         <div class="users-table-container">
           <table class="users-table">
@@ -1162,6 +1069,14 @@
           </table>
         </div>
       `;
+      
+      // Attach events
+      document.getElementById('userSearch').addEventListener('input', filterUsers);
+      document.getElementById('filterChips').addEventListener('click', function(e) {
+        const chip = e.target.closest('.filter-chip');
+        if (chip) filterByTier(chip.dataset.tier, chip);
+      });
+      
       updateUsersTable();
     }
     
@@ -1174,11 +1089,11 @@
     
     function renderUser360Widget(id) {
       const body = document.getElementById(`body-${id}`);
-      if (!data.selectedUser) {
+      if (!appData.selectedUser) {
         body.innerHTML = `<div class="user-360-empty"><div class="user-360-empty-icon">👤</div><p>Select a user</p></div>`;
         return;
       }
-      const u = data.selectedUser;
+      const u = appData.selectedUser;
       const dropsPercent = u.tier === 'free' ? Math.min(100, (u.drops_count / 50) * 100) : 100;
       body.innerHTML = `
         <div class="user-360-header">
@@ -1200,12 +1115,25 @@
           <div class="stat-card"><div class="stat-label">Last Active</div><div class="stat-value">${u.last_active ? timeAgo(u.last_active) : 'N/A'}</div></div>
         </div>
         <div class="user-360-actions">
-          <button class="action-btn" onclick="viewUserDrops('${u.id}')">View Drops</button>
-          <button class="action-btn" onclick="changeTier('${u.id}')">Change Tier</button>
-          <button class="action-btn danger" onclick="banUser('${u.id}')">🚫 Ban</button>
+          <button class="action-btn" data-user-action="drops" data-uid="${u.id}">View Drops</button>
+          <button class="action-btn" data-user-action="tier" data-uid="${u.id}">Change Tier</button>
+          <button class="action-btn danger" data-user-action="ban" data-uid="${u.id}">🚫 Ban</button>
         </div>
       `;
     }
+    
+    // User actions delegation
+    document.addEventListener('click', function(e) {
+      const btn = e.target.closest('[data-user-action]');
+      if (!btn) return;
+      
+      const action = btn.dataset.userAction;
+      const uid = btn.dataset.uid;
+      
+      if (action === 'drops') alert('View drops: ' + maskId(uid));
+      if (action === 'tier') alert('Change tier: ' + maskId(uid));
+      if (action === 'ban' && confirm('Ban ' + maskId(uid) + '?')) alert('Banned (mock)');
+    });
     
     function renderAlertsWidget(id) {
       const body = document.getElementById(`body-${id}`);
@@ -1276,38 +1204,53 @@
     async function refreshAll() {
       document.getElementById('lastRefresh').textContent = new Date().toLocaleTimeString();
       await Promise.all([loadUsers(), loadDropsCount(), loadCommandsCount(), loadActivity(), loadCosts()]);
-      updateKPIs(); updateUsersTable(); updateActivityFeed();
+      updateKPIs();
+      updateUsersTable();
+      updateActivityFeed();
     }
     
     async function loadUsers() {
       try {
-        const { data: limits } = await supabase.from('user_limits').select('user_id, tier').order('tier');
+        const { data: limits } = await sb.from('user_limits').select('user_id, tier').order('tier');
         const userIds = limits.map(u => u.user_id);
-        const { data: dropCounts } = await supabase.from('drops').select('user_id').in('user_id', userIds);
+        const { data: dropCounts } = await sb.from('drops').select('user_id').in('user_id', userIds);
         const dropsMap = {};
         (dropCounts || []).forEach(d => { dropsMap[d.user_id] = (dropsMap[d.user_id] || 0) + 1; });
-        data.users = limits.map(u => ({ id: u.user_id, tier: u.tier, drops_count: dropsMap[u.user_id] || 0, email: '', commands_count: 0, last_active: null, status: 'active' }));
-        data.totalUsers = limits.length;
+        appData.users = limits.map(u => ({
+          id: u.user_id,
+          tier: u.tier,
+          drops_count: dropsMap[u.user_id] || 0,
+          email: '',
+          commands_count: 0,
+          last_active: null,
+          status: 'active'
+        }));
+        appData.totalUsers = limits.length;
       } catch (e) { console.error('Error loading users:', e); }
     }
     
     async function loadDropsCount() {
-      try { const { count } = await supabase.from('drops').select('id', { count: 'exact', head: true }); data.totalDrops = count || 0; } catch (e) { console.error(e); }
+      try {
+        const { count } = await sb.from('drops').select('id', { count: 'exact', head: true });
+        appData.totalDrops = count || 0;
+      } catch (e) { console.error(e); }
     }
     
     async function loadCommandsCount() {
       try {
-        const startOfMonth = new Date(); startOfMonth.setDate(1); startOfMonth.setHours(0, 0, 0, 0);
-        const { count } = await supabase.from('command_drops').select('id', { count: 'exact', head: true }).gte('created', startOfMonth.toISOString());
-        data.totalCommands = count || 0;
+        const startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
+        const { count } = await sb.from('command_drops').select('id', { count: 'exact', head: true }).gte('created', startOfMonth.toISOString());
+        appData.totalCommands = count || 0;
       } catch (e) { console.error(e); }
     }
     
     async function loadActivity() {
       try {
-        const { data: drops } = await supabase.from('drops').select('id, user_id, category, created').order('created', { ascending: false }).limit(8);
-        const { data: commands } = await supabase.from('command_drops').select('id, user_id, command_type, created').order('created', { ascending: false }).limit(8);
-        data.activity = [
+        const { data: drops } = await sb.from('drops').select('id, user_id, category, created').order('created', { ascending: false }).limit(8);
+        const { data: commands } = await sb.from('command_drops').select('id, user_id, command_type, created').order('created', { ascending: false }).limit(8);
+        appData.activity = [
           ...(drops || []).map(d => ({ type: 'drop', user_id: d.user_id, category: d.category || 'note', created: d.created, size: Math.floor(Math.random() * 400) + 50 })),
           ...(commands || []).map(c => ({ type: 'command', user_id: c.user_id, category: c.command_type || 'ask', created: c.created, size: Math.floor(Math.random() * 800) + 100 }))
         ].sort((a, b) => new Date(b.created) - new Date(a.created)).slice(0, 12);
@@ -1316,8 +1259,10 @@
     
     async function loadCosts() {
       try {
-        const startOfMonth = new Date(); startOfMonth.setDate(1); startOfMonth.setHours(0, 0, 0, 0);
-        const { data: costs } = await supabase.from('api_costs').select('provider, cost').gte('created', startOfMonth.toISOString());
+        const startOfMonth = new Date();
+        startOfMonth.setDate(1);
+        startOfMonth.setHours(0, 0, 0, 0);
+        const { data: costs } = await sb.from('api_costs').select('provider, cost').gte('created', startOfMonth.toISOString());
         const totals = { anthropic: 0, openai: 0, elevenlabs: 0 };
         (costs || []).forEach(row => {
           const p = (row.provider || '').toLowerCase();
@@ -1325,35 +1270,43 @@
           else if (p.includes('openai')) totals.openai += row.cost;
           else if (p.includes('elevenlabs') || p.includes('eleven')) totals.elevenlabs += row.cost;
         });
-        data.apiCosts = { total: totals.anthropic + totals.openai + totals.elevenlabs, ...totals };
+        appData.apiCosts = { total: totals.anthropic + totals.openai + totals.elevenlabs, ...totals };
       } catch (e) { console.error(e); }
     }
     
     async function checkHealth() {
-      const el = document.getElementById('health-db'); if (!el) return;
+      const el = document.getElementById('health-db');
+      if (!el) return;
       try {
         const start = Date.now();
-        const { error } = await supabase.from('drops').select('id').limit(1);
+        const { error } = await sb.from('drops').select('id').limit(1);
         const ms = Date.now() - start;
         el.textContent = error ? 'Error' : `${ms}ms`;
         el.className = `health-status ${error ? 'error' : 'ok'}`;
-      } catch (e) { el.textContent = 'Error'; el.className = 'health-status error'; }
+      } catch (e) {
+        el.textContent = 'Error';
+        el.className = 'health-status error';
+      }
     }
     
     // ============ UI UPDATES ============
     function updateKPIs() {
       const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-      set('kpi-drops', data.totalDrops.toLocaleString());
-      set('kpi-users', data.totalUsers.toLocaleString());
-      set('kpi-commands', data.totalCommands.toLocaleString());
-      set('kpi-costs', '$' + data.apiCosts.total.toFixed(2));
+      set('kpi-drops', appData.totalDrops.toLocaleString());
+      set('kpi-users', appData.totalUsers.toLocaleString());
+      set('kpi-commands', appData.totalCommands.toLocaleString());
+      set('kpi-costs', '$' + appData.apiCosts.total.toFixed(2));
     }
     
     function updateUsersTable() {
-      const tbody = document.getElementById('usersTableBody'); if (!tbody) return;
-      if (data.users.length === 0) { tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px;">No users</td></tr>`; return; }
-      tbody.innerHTML = data.users.map(u => `
-        <tr onclick="selectUser('${u.id}')" class="${data.selectedUser?.id === u.id ? 'selected' : ''}">
+      const tbody = document.getElementById('usersTableBody');
+      if (!tbody) return;
+      if (appData.users.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:24px;">No users</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = appData.users.map(u => `
+        <tr data-userid="${u.id}" class="${appData.selectedUser?.id === u.id ? 'selected' : ''}">
           <td><span class="user-id-cell">${maskId(u.id)}</span></td>
           <td><span class="tier-badge ${u.tier}">${u.tier}</span></td>
           <td>${u.drops_count}</td>
@@ -1363,10 +1316,20 @@
       `).join('');
     }
     
+    // User selection delegation
+    document.addEventListener('click', function(e) {
+      const row = e.target.closest('tr[data-userid]');
+      if (row) selectUser(row.dataset.userid);
+    });
+    
     function updateActivityFeed() {
-      const container = document.getElementById('activityFeed'); if (!container) return;
-      if (data.activity.length === 0) { container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📡</div><p>No activity</p></div>`; return; }
-      container.innerHTML = data.activity.map(a => `
+      const container = document.getElementById('activityFeed');
+      if (!container) return;
+      if (appData.activity.length === 0) {
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📡</div><p>No activity</p></div>`;
+        return;
+      }
+      container.innerHTML = appData.activity.map(a => `
         <div class="activity-item">
           <span class="activity-time">${timeAgo(a.created)}</span>
           <span class="activity-user">${maskId(a.user_id)}</span>
@@ -1379,95 +1342,186 @@
     }
     
     function updateCosts() {
-      const c = data.apiCosts;
+      const c = appData.apiCosts;
       const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = '$' + val.toFixed(2); };
-      set('costs-total', c.total); set('costs-anthropic', c.anthropic); set('costs-openai', c.openai); set('costs-11labs', c.elevenlabs);
+      set('costs-total', c.total);
+      set('costs-anthropic', c.anthropic);
+      set('costs-openai', c.openai);
+      set('costs-11labs', c.elevenlabs);
     }
     
     // ============ USER INTERACTIONS ============
     function selectUser(userId) {
-      const user = data.users.find(u => u.id === userId);
-      if (user) { data.selectedUser = user; updateUsersTable(); renderUser360Widget('user360'); }
+      const user = appData.users.find(u => u.id === userId);
+      if (user) {
+        appData.selectedUser = user;
+        updateUsersTable();
+        renderUser360Widget('user360');
+      }
     }
     
     function filterUsers() {
       const search = (document.getElementById('userSearch')?.value || '').toLowerCase();
-      document.querySelectorAll('#usersTableBody tr').forEach(row => { row.style.display = row.textContent.toLowerCase().includes(search) ? '' : 'none'; });
+      document.querySelectorAll('#usersTableBody tr').forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(search) ? '' : 'none';
+      });
     }
     
     function filterByTier(tier, btn) {
       document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
       document.querySelectorAll('#usersTableBody tr').forEach(row => {
-        if (tier === 'all') { row.style.display = ''; }
-        else { const badge = row.querySelector('.tier-badge'); row.style.display = badge?.classList.contains(tier) ? '' : 'none'; }
+        if (tier === 'all') {
+          row.style.display = '';
+        } else {
+          const badge = row.querySelector('.tier-badge');
+          row.style.display = badge?.classList.contains(tier) ? '' : 'none';
+        }
       });
     }
     
     // ============ LAYOUT ============
     let saveTimeout;
-    function saveLayoutDebounced() { clearTimeout(saveTimeout); saveTimeout = setTimeout(() => { localStorage.setItem('cortex_v3_layout', JSON.stringify(grid.save(false))); }, 500); }
-    function saveLayout() { localStorage.setItem('cortex_v3_layout', JSON.stringify(grid.save(false))); showToast('✅ Layout saved'); }
-    function resetLayout() { if (confirm('Reset to default?')) { localStorage.removeItem('cortex_v3_layout'); loadLayout(DEFAULT_LAYOUT); showToast('↺ Reset'); } }
+    function saveLayoutDebounced() {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        localStorage.setItem('cortex_v3_layout', JSON.stringify(grid.save(false)));
+      }, 500);
+    }
+    
+    function saveLayout() {
+      localStorage.setItem('cortex_v3_layout', JSON.stringify(grid.save(false)));
+      showToast('✅ Layout saved');
+    }
+    
+    function resetLayout() {
+      if (confirm('Reset to default?')) {
+        localStorage.removeItem('cortex_v3_layout');
+        loadLayout(DEFAULT_LAYOUT);
+        showToast('↺ Reset');
+      }
+    }
     
     function addWidget() {
-      const available = Object.entries(WIDGETS).filter(([id]) => !grid.getGridItems().find(el => el.gridstackNode?.id === id)).map(([id, w]) => `${id}: ${w.title}`).join('\n');
-      if (!available) { showToast('All widgets added'); return; }
+      const available = Object.entries(WIDGETS)
+        .filter(([id]) => !grid.getGridItems().find(el => el.gridstackNode?.id === id))
+        .map(([id, w]) => `${id}: ${w.title}`)
+        .join('\n');
+      
+      if (!available) {
+        showToast('All widgets added');
+        return;
+      }
+      
       const id = prompt('Enter widget ID:\n\n' + available);
       if (id && WIDGETS[id]) {
         const w = WIDGETS[id];
-        grid.addWidget({ w: w.minW || 3, h: w.minH || 2, minW: w.minW, minH: w.minH, id: id, content: createWidgetHTML(id, w.title) });
+        grid.addWidget({
+          w: w.minW || 3,
+          h: w.minH || 2,
+          minW: w.minW,
+          minH: w.minH,
+          id: id,
+          content: createWidgetHTML(id, w.title)
+        });
         w.render(id);
         showToast(`➕ Added ${w.title}`);
       }
     }
     
-    function removeWidget(id) { const item = grid.getGridItems().find(el => el.gridstackNode?.id === id); if (item) { grid.removeWidget(item); showToast('Removed'); } }
-    function refreshWidget(id) { const w = WIDGETS[id]; if (w?.render) w.render(id); }
-    function toggleEditMode() { editMode = !editMode; document.getElementById('editModeToggle').classList.toggle('active', editMode); grid.enableMove(editMode); grid.enableResize(editMode); }
+    function removeWidget(id) {
+      const item = grid.getGridItems().find(el => el.gridstackNode?.id === id);
+      if (item) {
+        grid.removeWidget(item);
+        showToast('Removed');
+      }
+    }
+    
+    function refreshWidget(id) {
+      const w = WIDGETS[id];
+      if (w?.render) w.render(id);
+    }
+    
+    function toggleEditMode() {
+      editMode = !editMode;
+      document.getElementById('editModeToggle').classList.toggle('active', editMode);
+      grid.enableMove(editMode);
+      grid.enableResize(editMode);
+    }
     
     // ============ AUTH ============
     async function handleGoogleLogin() {
       console.log('[Login] Button clicked');
       try {
-        if (!supabase) {
-          console.error('[Login] Supabase not initialized!');
-          showLoginError('Supabase not loaded. Please refresh.');
-          return;
-        }
-        console.log('[Login] Calling signInWithOAuth...');
-        const { data, error } = await supabase.auth.signInWithOAuth({
+        const { data, error } = await sb.auth.signInWithOAuth({
           provider: 'google',
           options: {
             redirectTo: window.location.origin + window.location.pathname
           }
         });
         console.log('[Login] Result:', { data, error });
-        if (error) {
-          console.error('[Login] Error:', error);
-          showLoginError(error.message);
-        }
+        if (error) showLoginError(error.message);
       } catch (e) {
         console.error('[Login] Exception:', e);
         showLoginError('Error: ' + e.message);
       }
     }
-    async function handleLogout() { if (confirm('Sign out?')) { await supabase.auth.signOut(); window.location.reload(); } }
-    function showLoginError(msg) { const el = document.getElementById('loginError'); el.textContent = msg; el.style.display = 'block'; }
+    
+    async function handleLogout() {
+      if (confirm('Sign out?')) {
+        await sb.auth.signOut();
+        window.location.reload();
+      }
+    }
+    
+    function showLoginError(msg) {
+      const el = document.getElementById('loginError');
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
     
     // ============ UTILITIES ============
-    function maskId(id) { if (!id) return '--'; return id.substring(0, 3) + '***' + id.slice(-2); }
-    function maskEmail(email) { if (!email) return ''; const [user, domain] = email.split('@'); if (!domain) return '***'; return user.substring(0, 2) + '***@' + domain.substring(0, 2) + '***'; }
-    function timeAgo(date) { if (!date) return '--'; const sec = Math.floor((Date.now() - new Date(date)) / 1000); if (sec < 60) return 'now'; if (sec < 3600) return Math.floor(sec / 60) + 'm'; if (sec < 86400) return Math.floor(sec / 3600) + 'h'; return Math.floor(sec / 86400) + 'd'; }
-    function formatDate(date) { if (!date) return '--'; return new Date(date).toLocaleDateString(); }
-    function getSecurityBadge(item) { if (item.size > 5000) return '⚠️'; if (item.size > 10000) return '🚨'; return '✓'; }
-    function showToast(msg) { const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = msg; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+    function maskId(id) {
+      if (!id) return '--';
+      return id.substring(0, 3) + '***' + id.slice(-2);
+    }
     
-    function viewUserDrops(id) { alert('View drops: ' + maskId(id)); }
-    function changeTier(id) { alert('Change tier: ' + maskId(id)); }
-    function banUser(id) { if (confirm('Ban ' + maskId(id) + '?')) alert('Banned (mock)'); }
+    function maskEmail(email) {
+      if (!email) return '';
+      const [user, domain] = email.split('@');
+      if (!domain) return '***';
+      return user.substring(0, 2) + '***@' + domain.substring(0, 2) + '***';
+    }
     
-    console.log('[Script] All functions defined, calling init()...');
+    function timeAgo(date) {
+      if (!date) return '--';
+      const sec = Math.floor((Date.now() - new Date(date)) / 1000);
+      if (sec < 60) return 'now';
+      if (sec < 3600) return Math.floor(sec / 60) + 'm';
+      if (sec < 86400) return Math.floor(sec / 3600) + 'h';
+      return Math.floor(sec / 86400) + 'd';
+    }
+    
+    function formatDate(date) {
+      if (!date) return '--';
+      return new Date(date).toLocaleDateString();
+    }
+    
+    function getSecurityBadge(item) {
+      if (item.size > 5000) return '⚠️';
+      if (item.size > 10000) return '🚨';
+      return '✓';
+    }
+    
+    function showToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+    
+    // ============ START ============
     init();
   </script>
 </body>
