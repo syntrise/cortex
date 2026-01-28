@@ -2001,7 +2001,7 @@
         const { error } = await supabaseClient.auth.signInWithOAuth({
           provider: 'google',
           options: {
-            redirectTo: window.location.href.split('?')[0] // Return to CORTEX after auth
+            redirectTo: window.location.origin + window.location.pathname // Clean URL without hash
           }
         });
         
@@ -2150,6 +2150,48 @@
     }
     
     // ===== INIT =====
+    
+    // Auth state change listener (v2.5 - OAuth callback fix)
+    supabaseClient.auth.onAuthStateChange(async (event, session) => {
+      console.log('[Auth] State changed:', event, session?.user?.email);
+      
+      if (event === 'SIGNED_IN' && session?.user) {
+        // Verify owner status
+        const { data: limits } = await supabaseClient
+          .from('user_limits')
+          .select('tier')
+          .eq('user_id', session.user.id)
+          .single();
+        
+        if (limits?.tier === 'owner') {
+          currentUser = session.user;
+          userTier = limits.tier;
+          
+          // Clear hash from URL (clean up OAuth tokens)
+          if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname);
+          }
+          
+          showApp();
+        } else {
+          console.warn('[Auth] User is not owner:', limits?.tier);
+          await supabaseClient.auth.signOut();
+          const errorEl = document.getElementById('loginError');
+          if (errorEl) {
+            errorEl.textContent = 'Access denied. Owner account required.';
+            errorEl.style.display = 'block';
+          }
+          document.getElementById('loginScreen').style.display = 'flex';
+          document.getElementById('appContainer').style.display = 'none';
+        }
+      } else if (event === 'SIGNED_OUT') {
+        currentUser = null;
+        userTier = null;
+        document.getElementById('loginScreen').style.display = 'flex';
+        document.getElementById('appContainer').style.display = 'none';
+      }
+    });
+    
     checkAuth();
   </script>
 </body>
