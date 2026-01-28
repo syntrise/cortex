@@ -891,6 +891,7 @@
     // ============ INITIALIZATION ============
     async function init() {
       console.log('[Init] Starting CORTEX v3...');
+      console.log('[Init] URL hash:', window.location.hash ? 'present' : 'none');
       
       // Attach event listeners
       document.getElementById('googleLoginBtn').addEventListener('click', handleGoogleLogin);
@@ -901,9 +902,40 @@
       document.getElementById('editModeToggle').addEventListener('click', toggleEditMode);
       document.getElementById('refreshBtn').addEventListener('click', refreshAll);
       
-      // Check session
-      const { data: { session } } = await sb.auth.getSession();
-      console.log('[Init] Session:', session?.user?.email || 'none');
+      // Handle OAuth callback - check if we have tokens in URL hash
+      if (window.location.hash && window.location.hash.includes('access_token')) {
+        console.log('[Init] OAuth callback detected, processing...');
+        
+        // Parse hash params
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        const accessToken = hashParams.get('access_token');
+        const refreshToken = hashParams.get('refresh_token');
+        
+        if (accessToken && refreshToken) {
+          console.log('[Init] Setting session from URL tokens...');
+          const { data, error } = await sb.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken
+          });
+          
+          if (error) {
+            console.error('[Init] Error setting session:', error);
+            showLoginError('Auth error: ' + error.message);
+          } else {
+            console.log('[Init] Session set successfully:', data.user?.email);
+            // Clear hash
+            history.replaceState(null, '', window.location.pathname);
+            if (data.session?.user) {
+              await verifyOwnerAccess(data.session);
+              return;
+            }
+          }
+        }
+      }
+      
+      // Check existing session
+      const { data: { session }, error } = await sb.auth.getSession();
+      console.log('[Init] Session:', session?.user?.email || 'none', error || '');
       
       if (session?.user) {
         await verifyOwnerAccess(session);
